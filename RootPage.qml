@@ -6,45 +6,23 @@ Page {
     width: 600
     height: 400
 
-    title: qsTr("Devices list")
+    title: qsTr("Device list")
 
-    /*Label {
-        text: qsTr("You are on the home page.")
-        anchors.centerIn: parent
-    }*/
+    property int deviceCount: -1
+    onDeviceCountChanged: {
+        console.log("Devices found:", deviceCount)
+        defaultModel.clear()
+        if (deviceCount > 0) {
+            for (var i = 0; i < deviceCount; ++i) {
+                var device = deviceManager.device(i)
+                console.log("Device:", device)
+                defaultModel.append(device)
+            }
+        }
+    }
 
     ListModel {
         id: defaultModel
-        ListElement {
-            deviceId: 1
-            name: "Device 1"
-            deviceAddress: "00:00:00:00:00"
-            description: "Description 1"
-        }
-        ListElement {
-            deviceId: 2
-            name: "Device 2"
-            deviceAddress: "00:00:00:00:00"
-            description: "Description 2"
-        }
-        ListElement {
-            deviceId: 3
-            name: "Device 3"
-            deviceAddress: "00:00:00:00:00"
-            description: "Description 3"
-        }
-        ListElement {
-            deviceId: 4
-            name: "Device 4"
-            deviceAddress: "00:00:00:00:00"
-            description: "Description 4"
-        }
-        ListElement {
-            deviceId: 5
-            name: "Device 5"
-            deviceAddress: "00:00:00:00:00"
-            description: "Description 5"
-        }
     }
 
     ListView {
@@ -67,16 +45,8 @@ Page {
                 }
                 Label {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 15
-                    text: model.description
-                    font.pixelSize: 10
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-                Label {
-                    Layout.fillWidth: true
                     Layout.preferredHeight: 25
-                    text: deviceAddress
+                    text: model.address
                     font.pixelSize: 20
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter

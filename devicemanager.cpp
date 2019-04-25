@@ -9,7 +9,7 @@ DeviceManager::DeviceManager(QObject *parent) :
     QObject(parent),
     m_discoveryAgent(new QBluetoothDeviceDiscoveryAgent())
 {
-    m_discoveryAgent->setLowEnergyDiscoveryTimeout(5000);
+    m_discoveryAgent->setLowEnergyDiscoveryTimeout(10000);
 
     connect(m_discoveryAgent.data(), &QBluetoothDeviceDiscoveryAgent::deviceDiscovered,
             this, &DeviceManager::addDevice);
@@ -17,6 +17,8 @@ DeviceManager::DeviceManager(QObject *parent) :
             this, &DeviceManager::scanningFinished);
     connect(m_discoveryAgent.data(), QOverload<QBluetoothDeviceDiscoveryAgent::Error>::of(&QBluetoothDeviceDiscoveryAgent::error),
             this, &DeviceManager::scanningError);
+
+    qRegisterMetaType<DevicePointer>();
 }
 
 DeviceManager::~DeviceManager()
@@ -26,6 +28,28 @@ DeviceManager::~DeviceManager()
 QString DeviceManager::info() const
 {
     return m_info;
+}
+
+int DeviceManager::deviceCount() const
+{
+    return m_devices.size();
+}
+
+QVariant DeviceManager::device(int index) const
+{
+    if (index < 0 || index >= m_devices.size()) {
+        return QVariant();
+    }
+    return QVariant::fromValue(m_devices.at(index).data());
+}
+
+void DeviceManager::startScanning()
+{
+    m_devices.clear();
+    emit devicesUpdated();
+
+    setInfo(tr("Scanning for BLE devices..."));
+    m_discoveryAgent->start(QBluetoothDeviceDiscoveryAgent::LowEnergyMethod);
 }
 
 void DeviceManager::setInfo(QString info)

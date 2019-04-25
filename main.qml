@@ -41,6 +41,15 @@ ApplicationWindow {
             anchors.fill: parent
 
             ItemDelegate {
+                text: qsTr("Start scanning")
+                width: parent.width
+                font.pixelSize: 35
+                onClicked: {
+                    deviceManager.startScanning()
+                    drawer.close()
+                }
+            }
+            /*ItemDelegate {
                 text: qsTr("Page 1")
                 width: parent.width
                 onClicked: {
@@ -55,7 +64,7 @@ ApplicationWindow {
                     stackView.push(page2)
                     drawer.close()
                 }
-            }
+            }*/
         }
     }
 
@@ -65,17 +74,25 @@ ApplicationWindow {
         anchors.fill: parent
     }
 
-    Label {
+    footer: Label {
         id: infoLabel
         text: statusInfo
+        height: 40
+        width: parent.width
+        font.pixelSize: 35
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.WordWrap
     }
 
     Component {
         id: rootPage
-        RootPage {}
+        RootPage {
+            deviceCount: deviceManager.deviceCount
+        }
     }
 
-    Component {
+    /*Component {
         id: page1
         Page1 {}
     }
@@ -83,5 +100,5 @@ ApplicationWindow {
     Component {
         id: page2
         Page2 {}
-    }
+    }*/
 }

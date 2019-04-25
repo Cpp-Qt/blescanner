@@ -2,6 +2,7 @@
 #define DEVICEMANAGER_H
 
 #include <QObject>
+#include <QVariant>
 #include <QSharedPointer>
 #include <QVector>
 #include <QBluetoothDeviceDiscoveryAgent>
@@ -15,11 +16,18 @@ class DeviceManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString info READ info WRITE setInfo NOTIFY infoChanged)
+    Q_PROPERTY(int deviceCount READ deviceCount NOTIFY devicesUpdated)
+
 public:
     explicit DeviceManager(QObject *parent = nullptr);
     virtual ~DeviceManager() override;
 
     QString info() const;
+    int deviceCount() const;
+
+    Q_INVOKABLE QVariant device(int index) const;
+
+    Q_INVOKABLE void startScanning();
 
 public slots:
     void setInfo(QString info);
