@@ -8,6 +8,8 @@ ApplicationWindow {
     height: 480
     title: qsTr("Stack")
 
+    property string statusInfo: ""
+
     header: ToolBar {
         contentHeight: toolButton.implicitHeight
 
@@ -42,7 +44,7 @@ ApplicationWindow {
                 text: qsTr("Page 1")
                 width: parent.width
                 onClicked: {
-                    stackView.push("Page1Form.ui.qml")
+                    stackView.push(page1)
                     drawer.close()
                 }
             }
@@ -50,7 +52,7 @@ ApplicationWindow {
                 text: qsTr("Page 2")
                 width: parent.width
                 onClicked: {
-                    stackView.push("Page2Form.ui.qml")
+                    stackView.push(page2)
                     drawer.close()
                 }
             }
@@ -59,7 +61,27 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "HomeForm.ui.qml"
+        initialItem: rootPage
         anchors.fill: parent
+    }
+
+    Label {
+        id: infoLabel
+        text: statusInfo
+    }
+
+    Component {
+        id: rootPage
+        RootPage {}
+    }
+
+    Component {
+        id: page1
+        Page1 {}
+    }
+
+    Component {
+        id: page2
+        Page2 {}
     }
 }
