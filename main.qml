@@ -77,7 +77,7 @@ ApplicationWindow {
     footer: Label {
         id: infoLabel
         text: statusInfo
-        height: 40
+        height: 80
         width: parent.width
         font.pixelSize: 35
         horizontalAlignment: Text.AlignHCenter

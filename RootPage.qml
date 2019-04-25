@@ -3,9 +3,6 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 
 Page {
-    width: 600
-    height: 400
-
     title: qsTr("Device list")
 
     property int deviceCount: -1
@@ -31,7 +28,7 @@ Page {
         model: defaultModel
         spacing: 15
         delegate: ItemDelegate {
-            width: parent.width
+            width: list.width
             height: 80
             ColumnLayout {
                 anchors.fill: parent
