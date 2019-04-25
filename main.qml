@@ -8,7 +8,7 @@ ApplicationWindow {
     height: 480
     title: qsTr("Stack")
 
-    property string statusInfo: ""
+    property string statusInfo: deviceManager.info
 
     header: ToolBar {
         contentHeight: toolButton.implicitHeight
